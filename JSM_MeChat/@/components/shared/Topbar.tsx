@@ -29,7 +29,7 @@ export default function Topbar() {
         </Link>
 
         <div className="flex gap-4">
-          <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
+          <Button className="shad-button_ghost" onClick={() => signOutUser()}>
             <img
               src="/assets/icons/logout.svg"
               alt="logout"

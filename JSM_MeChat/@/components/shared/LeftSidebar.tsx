@@ -62,7 +62,7 @@ export default function LeftSidebar() {
           })}
         </ul>
       </div>
-      <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
+      <Button className="shad-button_ghost" onClick={() => signOutUser()}>
         <img
           src="/assets/icons/logout.svg"
           alt="logout"
