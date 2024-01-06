@@ -112,7 +112,7 @@ function RootLayout() {
       </section>
 
       {/** Bottombar only visible on mobile devices */}
-      <div className="flex gap-2">
+      <section className="bottom-bar">
         {bottombarLinks.map((link: INavLink) => {
           const isActive = pathname === link.route;
           
@@ -120,7 +120,7 @@ function RootLayout() {
             <Link
               to={link.route}
               key={link.label}
-              className={`bottom-bar flex-col gap-1 ${isActive && `bg-primary-500`} transition`}
+              className={`${isActive && `bg-primary-500 rounded-[10px]`} flex-center flex-col gap-1 p-2 transition`}
             >
               <img
                 src={link.imgURL}
@@ -129,13 +129,13 @@ function RootLayout() {
                 height={10}
                 className={`${isActive && `invert-white`}`}
               />
-              <p className="tiny-medium text-light-4">
+              <p className="tiny-medium text-light-2">
                 {link.label}
               </p>
             </Link>
           )
         })}
-      </div>
+      </section>
     </div>
   )
 }

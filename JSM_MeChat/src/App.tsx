@@ -8,7 +8,7 @@ import SignInForm from './_auth/forms/SignInForm';
 import SignUpForm from './_auth/forms/SignUpForm';
 import {
   AllUsers,
-  CreatePosts,
+  CreatePost,
   Explore,
   Home,
   PostDetails,
@@ -33,14 +33,13 @@ const App = () => {
           <Route path='/explore' element={<Explore />} />
           <Route path='/saved' element={<Saved />} />
           <Route path='/all-users' element={<AllUsers />} />
-          <Route path='/create-posts' element={<CreatePosts />} />
+          <Route path='/create-post' element={<CreatePost />} />
           <Route path="/update-posts" element={<UpdatePost />} />
           <Route path='/posts/:id' element={<PostDetails />} />
           <Route path='/profile/:id/*' element={<Profile />} />
           <Route path='/update-profile/:id' element={<UpdateProfile />} />
         </Route>
       </Routes>
-
       <Toaster />
     </main>
   )
