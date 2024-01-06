@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from '../../../@/components/ui/button';
 import { useUserContext } from "@/context/AuthContext";
 import { useSignOutAccountMutation } from "@/react-query/queriesAndMutations";
+import '../../../src/globals.css';
 
 export default function Topbar() {
   const {user} = useUserContext();
@@ -17,33 +18,31 @@ export default function Topbar() {
   }, [isSuccess, navigate])
 
   return (
-    <section className="topbar">
-      <div className="flex-between py-4 px-5">
-        <Link to="/" className="flex gap-3 items-center">
+    <div className="flex-between py-4 px-5">
+      <Link to="/" className="flex gap-3 items-center">
+        <img
+          src="/assets/images/logo.svg"
+          alt="logo"
+          width={130}
+          height={325}
+        />
+      </Link>
+
+      <div className="flex gap-4">
+        <Button className="shad-button_ghost" onClick={() => signOutUser()}>
           <img
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={130}
-            height={325}
+            src="/assets/icons/logout.svg"
+            alt="logout"
+          />
+        </Button>
+        <Link to={`/profile/${user.id}`}>
+          <img
+            src={user.imageUrl || `/assets/icons/profile-placeholder.svg`}
+            alt="user avatar"
+            className="w-8 h-8 rounded-se-full"
           />
         </Link>
-
-        <div className="flex gap-4">
-          <Button className="shad-button_ghost" onClick={() => signOutUser()}>
-            <img
-              src="/assets/icons/logout.svg"
-              alt="logout"
-            />
-          </Button>
-          <Link to={`/profile/${user.id}`}>
-            <img
-              src={user.imageUrl || `/assets/icons/profile-placeholder.svg`}
-              alt="user avatar"
-              className="w-8 h-8 rounded-se-full"
-            />
-          </Link>
-        </div>
       </div>
-    </section>
+    </div>
   )
 }
