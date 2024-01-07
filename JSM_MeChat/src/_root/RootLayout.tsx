@@ -35,7 +35,7 @@ function RootLayout() {
           </Link>
 
           <div className="flex gap-4">
-            <Button className="shad-button_ghost" onClick={() => signOutUser()}>
+            <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
               <img
                 src="/assets/icons/logout.svg"
                 alt="logout"
@@ -98,7 +98,7 @@ function RootLayout() {
             })}
           </ul>
         </div>
-        <Button className="shad-button_ghost" onClick={() => signOutUser()}>
+        <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
           <img
             src="/assets/icons/logout.svg"
             alt="logout"
@@ -107,7 +107,7 @@ function RootLayout() {
         </Button>
       </nav>
 
-      <section>
+      <section className="flex flex-1">
         <Outlet />
       </section>
 
