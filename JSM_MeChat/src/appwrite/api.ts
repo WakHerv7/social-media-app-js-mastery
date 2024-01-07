@@ -111,7 +111,7 @@ export async function createPost(post: INewPost) {
     };
 
     // Then we create an array from the tags 
-    const tags = post.tags?.replace(/ /g, "").split(", ") || [];
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
     // then we upload the post in the database
     const savePostToDB = await database.createDocument(
@@ -160,8 +160,8 @@ export function getFilePreview(fileId: string) {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storage,
       fileId,
-      2000,
-      2000,
+      800,
+      800,
       "top",
       100
     )

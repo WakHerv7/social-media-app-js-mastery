@@ -4,9 +4,13 @@ import { Models } from "appwrite";
 import PostCard from '../../../@/components/shared/PostCard';
 import { Link } from "react-router-dom";
 import { formatDateString, multiFormatDateString } from "../../../@/lib/utils";
+import { useUserContext } from "@/context/AuthContext";
 
 const Home = () => {
   const {data: recentPosts, isPending: isLoading, isError: errorLoading} = useGetRecentPosts();
+  const { user } = useUserContext();
+
+  console.log(recentPosts);
 
   return (
     <div className="flex flex-1">
@@ -27,7 +31,7 @@ const Home = () => {
                         <img
                           src={post.creator.imageUrl || `/assets/icons/profile-placeholder.svg`}
                           alt="profile photo"
-                          className="rounded-full w-12 lg:h-14"
+                          className="rounded-full w-12 lg:h-14 lg:w-14"
                         />
                       </Link>
                       
@@ -40,7 +44,38 @@ const Home = () => {
                         </div>
                       </div>
                     </div>
+
+                    <Link to={`/edit-post/${post.$id}`} className={`${user.id !== post.creator.$id && "hidden"}`}>
+                      <img
+                        src="/assets/icons/edit.svg"
+                        alt="edit post"
+                        width={14}
+                        height={14}
+                      />
+                    </Link>
                   </div>
+
+                  <Link to={`/post/${post.$id}`}>
+                    <div className="small-medium lg:base-medium">
+                      <p>{post.caption}</p>
+                      <ul>
+                        {post.tags.map((tag: string) => (
+                          <li key={tag} className="text-light-3">
+                            #{tag}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="flex-center">
+                        <img
+                          src={post.imageUrl || `/asset/icons/profile-placeholder.svg`}
+                          alt="creator"
+                          className="mt-3"
+                          width={400}
+                          height={400}
+                        />
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               ))}
             </ul>
