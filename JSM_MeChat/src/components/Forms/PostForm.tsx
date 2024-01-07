@@ -22,6 +22,7 @@ import { Models } from "appwrite"
 import { useNavigate } from "react-router-dom"
 import { useUserContext } from "@/context/AuthContext"
 import { useCreatePostMutation } from "@/react-query/queriesAndMutations"
+import Loader from "../../../@/components/shared/Loader"
 
 
 type PostFormProps = {
@@ -122,7 +123,12 @@ const PostForm = ({ post }: PostFormProps) => {
         />
         <div className="flex justify-end items-center gap-4">
             <Button type="button" className="shad-button_dark_4">Cancel</Button>
-            <Button type="submit" className="shad-button_primary whitespace-nowrap p-3">Submit</Button>
+            <Button type="submit" className="shad-button_primary whitespace-nowrap p-3">
+              {isLoadingCreate ? (
+                <Loader />
+                ) : "Submit"
+              }
+            </Button>
         </div>
       </form>
     </Form>

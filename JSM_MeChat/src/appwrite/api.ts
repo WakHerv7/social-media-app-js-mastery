@@ -159,7 +159,11 @@ export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storage,
-      fileId
+      fileId,
+      2000,
+      2000,
+      "top",
+      100
     )
 
     if (!fileUrl) throw Error;
@@ -180,5 +184,24 @@ export async function deleteFile(fileId: string) {
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getRecentPosts() {
+  try {
+    const recentPosts = await database.listDocuments(
+      appwriteConfig.database,
+      appwriteConfig.postsCollectionId,
+      [
+        Query.orderDesc('$createdAt'),
+        Query.limit(20)
+      ]
+    )
+
+    if (!recentPosts) throw Error;
+
+    return recentPosts;
+  } catch (error) {
+    console.log(error)
   }
 }
