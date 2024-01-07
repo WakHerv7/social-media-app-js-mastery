@@ -20,5 +20,5 @@ client.setEndpoint(appwriteConfig.endpoint);
 // pass client to the other appwrite SDK
 export const account = new Account(client); // Account creation
 export const database = new Databases(client); // Database creation
-export const storage = new Storage(client); // storage busckets
+export const storage = new Storage(client); // storage buckets
 export const avatars = new Avatars(client); // images and avatars

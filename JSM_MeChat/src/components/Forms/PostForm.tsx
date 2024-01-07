@@ -12,13 +12,28 @@ import {
   FormMessage,
 } from "../../../@/components/ui/form"
 import { Input } from "../../../@/components/ui/input"
+import { useToast } from "../ui/use-toast"
 
 import { PostValidationSchema } from "../../../@/lib/validation"
 import { Textarea } from "../ui/textarea"
 
 import FileUploader from "../../../@/components/shared/FileUploader";
+import { Models } from "appwrite"
+import { useNavigate } from "react-router-dom"
+import { useUserContext } from "@/context/AuthContext"
+import { useCreatePostMutation } from "@/react-query/queriesAndMutations"
 
-const PostForm = ({ post }) => {
+
+type PostFormProps = {
+  post?: Models.Document;
+}
+
+const PostForm = ({ post }: PostFormProps) => {
+  const {mutateAsync: createPost, isPending: isLoadingCreate} = useCreatePostMutation();
+  const { user } = useUserContext();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
     // 1. Define your form.
   const form = useForm<z.infer<typeof PostValidationSchema>>({
     resolver: zodResolver(PostValidationSchema),
@@ -31,10 +46,20 @@ const PostForm = ({ post }) => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof PostValidationSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof PostValidationSchema>) {
+    const newPost = await createPost({
+      ...values,
+      userId: user.id,
+    })  
+    if (!newPost) {
+      return (
+        toast({
+          title: "Failed! Please try again"
+        })
+      )
+    }
+
+    navigate('/');
   }
 
   return (

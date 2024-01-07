@@ -1,4 +1,5 @@
 import {
+  createPost,
   createUserAccount,
   signInUserAccount,
   signOutUserAccount
@@ -26,5 +27,20 @@ export function useSignInAccountMutation() {
 export function useSignOutAccountMutation() {
   return useMutation({
     mutationFn: signOutUserAccount
+  })
+}
+
+export function useCreatePostMutation() {
+  return useMutation({
+    mutationFn: ({caption, file, location, tags, userId}: {
+
+      caption: string;
+      file: File[];
+      location: string;
+      tags: string;
+      userId: string;
+    }) => createPost({
+      caption, file, location, tags, userId
+    })
   })
 }
