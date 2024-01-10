@@ -3,14 +3,13 @@ import Loader from "../../../@/components/shared/Loader";
 import { Models } from "appwrite";
 import PostCard from '../../../@/components/shared/PostCard';
 import { Link } from "react-router-dom";
-import { formatDateString, multiFormatDateString } from "../../../@/lib/utils";
+import { multiFormatDateString } from "../../../@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
+import PostStats from "../../../@/components/shared/PostStats";
 
 const Home = () => {
   const {data: recentPosts, isPending: isLoading, isError: errorLoading} = useGetRecentPosts();
   const { user } = useUserContext();
-
-  console.log(recentPosts);
 
   return (
     <div className="flex flex-1">
@@ -69,13 +68,11 @@ const Home = () => {
                         <img
                           src={post.imageUrl || `/asset/icons/profile-placeholder.svg`}
                           alt="creator"
-                          className="mt-3"
-                          width={400}
-                          height={400}
                         />
                       </div>
                     </div>
                   </Link>
+                  <PostStats post={post} userId={user.id} />
                 </div>
               ))}
             </ul>
