@@ -15,7 +15,8 @@ import {
   Profile,
   Saved,
   UpdatePost,
-  UpdateProfile
+  UpdateProfile,
+  EditPost
 } from './_root/pages';
 import './globals.css';
 
@@ -38,6 +39,7 @@ const App = () => {
           <Route path='/posts/:id' element={<PostDetails />} />
           <Route path='/profile/:id/*' element={<Profile />} />
           <Route path='/update-profile/:id' element={<UpdateProfile />} />
+          <Route path='/edit-post/:id' element={<EditPost />} />
         </Route>
       </Routes>
       <Toaster />

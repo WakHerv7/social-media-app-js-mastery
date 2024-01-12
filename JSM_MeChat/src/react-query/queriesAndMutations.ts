@@ -3,6 +3,7 @@ import {
   createUserAccount,
   deleteSavedPost,
   getCurrentUser,
+  getPostById,
   getRecentPosts,
   likePost,
   savePost,
@@ -56,7 +57,6 @@ export function useGetRecentPosts() {
     queryFn: getRecentPosts
   })
 }
-
 
 export function useLikePostMutation() {
   const queryClient = useQueryClient();
@@ -130,3 +130,10 @@ export function useGetCurrentUser() {
     queryFn: getCurrentUser
   })
 }
+
+export function useGetPostsByIdMutation(postId: string) {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_POST_BY_ID, postId],
+    queryFn: () => getPostById(postId)
+  })
+} 
