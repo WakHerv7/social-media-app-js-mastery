@@ -1,14 +1,13 @@
 import PostForm from "@/components/Forms/PostForm";
 import Loader from "../../../@/components/shared/Loader";
 import { useGetPostsByIdMutation } from "@/react-query/queriesAndMutations";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function EditPost() {
   const { id } = useParams();
-  const { data: post, isPending: isLoading } = useGetPostsByIdMutation(id || "");
+  const { data: post } = useGetPostsByIdMutation(id || "");
 
-  if (!isLoading) {
+  if (!post) {
     return <Loader />;
   }
 
@@ -26,7 +25,7 @@ function EditPost() {
             Edit Post
           </h3>
         </div>
-        <PostForm post={post} />
+        <PostForm post={post} action="Update" />
       </div>
     </div>
   )

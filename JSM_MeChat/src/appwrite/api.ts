@@ -1,4 +1,4 @@
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, database, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -103,10 +103,10 @@ export async function createPost(post: INewPost) {
     if (!uploadFile) throw Error;
 
     // then we create a preview for the file
-    const filePreview = getFilePreview(uploadedFile.$id);
+    const filePreview = getFilePreview(uploadedFile?.$id || "");
 
-    if (!uploadFile) {
-      deleteFile(uploadedFile.$id);
+    if (!filePreview) {
+      await deleteFile(uploadedFile?.$id || "");
       throw Error;
     };
 
@@ -129,7 +129,7 @@ export async function createPost(post: INewPost) {
     )
 
     if (!savePostToDB) {
-      deleteFile(uploadFile.$id)
+      await deleteFile(uploadedFile?.$id || "");
       throw Error;
     }
 
@@ -180,7 +180,7 @@ export async function deleteFile(fileId: string) {
       fileId
     );
     if (response) {
-      return { 'status': 200 }
+      return { 'status': 'ok' }
     }
   } catch (error) {
     console.log(error);
@@ -272,6 +272,80 @@ export async function getPostById(postId: string) {
     if (!post) throw Error;
 
     return post;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function updatePost(post: IUpdatePost) {
+  const updateHasFile = post.file.length > 0;
+
+  try {
+    let image = {
+      imageId: post.imageId,
+      imageUrl: post.imageUrl,
+    }
+
+    if (updateHasFile) {
+      // first we create the file in the storage bucket
+      const uploadedFile = await uploadFile(post.file[0]);
+
+      if (!uploadedFile) throw Error;
+
+      // then we create a preview for the file
+      const filePreview = getFilePreview(uploadedFile.$id);
+
+      if (!filePreview) {
+        await deleteFile(uploadedFile?.$id || "");
+        throw Error;
+      };
+
+      image = {...image, imageUrl: filePreview, imageId: uploadedFile.$id}
+    }
+    
+    // Then we create an array from the tags 
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
+
+    // then we upload the post in the database
+    const savePostToDB = await database.updateDocument(
+      appwriteConfig.database,
+      appwriteConfig.postsCollectionId,
+      post.postId,
+      {
+        imageId: image?.imageId,
+        imageUrl: image?.imageUrl,
+        caption: post.caption,
+        location: post.location,
+        tags: tags,
+      }
+    )
+
+    if (!savePostToDB) {
+      await deleteFile(post.imageId);
+      throw Error;
+    }
+
+    return savePostToDB;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePost(postId: string, imageId: string) {
+  if (!postId || !imageId) throw Error;
+
+  try {
+    const statusCode = await database.deleteDocument(
+      appwriteConfig.database,
+      appwriteConfig.postsCollectionId,
+      postId
+    )
+
+    if (!statusCode) throw Error;
+
+    await deleteFile(imageId);
+
+    return { 'status': 'ok' };
   } catch (error) {
     console.log(error)
   }

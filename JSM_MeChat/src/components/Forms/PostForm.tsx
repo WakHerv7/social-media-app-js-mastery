@@ -21,16 +21,19 @@ import FileUploader from "../../../@/components/shared/FileUploader";
 import { Models } from "appwrite"
 import { useNavigate } from "react-router-dom"
 import { useUserContext } from "@/context/AuthContext"
-import { useCreatePostMutation } from "@/react-query/queriesAndMutations"
+import { useCreatePostMutation, useUpdatePostMutation } from "@/react-query/queriesAndMutations"
 import Loader from "../../../@/components/shared/Loader"
 
 
 type PostFormProps = {
   post?: Models.Document;
+  action: "Create" | "Update";
 }
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
   const {mutateAsync: createPost, isPending: isLoadingCreate} = useCreatePostMutation();
+  const {mutateAsync: updatePost, isPending: isUpdateingPost} = useUpdatePostMutation();
+
   const { user } = useUserContext();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -48,6 +51,19 @@ const PostForm = ({ post }: PostFormProps) => {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof PostValidationSchema>) {
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post.imageId,
+        imageUrl: post.imageUrl,
+      });
+
+      if (!updatedPost) throw Error;
+
+      return navigate(`/post/${post?.$id}`);
+    }
+
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -122,11 +138,18 @@ const PostForm = ({ post }: PostFormProps) => {
           )}
         />
         <div className="flex justify-end items-center gap-4">
-            <Button type="button" className="shad-button_dark_4">Cancel</Button>
+            <Button type="button"
+              className="shad-button_dark_4"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
+            </Button>
             <Button type="submit" className="shad-button_primary whitespace-nowrap p-3">
-              {isLoadingCreate ? (
+              {isLoadingCreate || isUpdateingPost? (
                 <Loader />
-                ) : "Submit"
+                ) : (
+                  `${action} Post`
+                )
               }
             </Button>
         </div>
