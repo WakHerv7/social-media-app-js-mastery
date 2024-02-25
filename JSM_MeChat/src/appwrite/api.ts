@@ -350,3 +350,44 @@ export async function deletePost(postId: string, imageId: string) {
     console.log(error)
   }
 }
+
+export async function getAllPosts({pageParams}: {pageParams: number}) {
+  const query: any[] = [Query.orderDesc('$updatedAt'), Query.limit(20)];
+
+  if (!pageParams) {
+    query.push(Query.cursorAfter(pageParams.toString()));
+  }
+
+  try {
+    const posts = await database.listDocuments(
+      appwriteConfig.database,
+      appwriteConfig.postsCollectionId,
+      query
+    )
+
+    if (!posts) throw Error;
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
+
+export async function getSearchPosts(searchTerm: string) {
+  const query = [Query.search('caption', searchTerm)]
+
+  try {
+    const searchResult = database.listDocuments(
+      appwriteConfig.database,
+      appwriteConfig.postsCollectionId,
+      query
+    )
+
+    if (!searchResult) throw Error;
+
+    return searchResult;
+  } catch (error) {
+    console.log(error);
+  }
+}

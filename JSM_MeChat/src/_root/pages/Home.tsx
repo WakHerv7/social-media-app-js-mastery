@@ -26,7 +26,7 @@ const Home = () => {
                 <div key={post.$id} className="post-card">
                   <div className="flex-between">
                     <div className="flex items-center gap-3">
-                      <Link to={`/profile/$creator.$id`}>
+                      <Link to={`/profile/${post?.creator.$id}`}>
                         <img
                           src={post.creator.imageUrl || `/assets/icons/profile-placeholder.svg`}
                           alt="profile photo"
@@ -54,7 +54,7 @@ const Home = () => {
                     </Link>
                   </div>
 
-                  <Link to={`/post/${post.$id}`}>
+                  <Link to={`/posts/${post.$id}`}>
                     <div className="small-medium lg:base-medium">
                       <p>{post.caption}</p>
                       <ul>

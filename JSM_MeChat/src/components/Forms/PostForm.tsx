@@ -59,9 +59,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
         imageUrl: post.imageUrl,
       });
 
-      if (!updatedPost) throw Error;
+      if (!updatedPost) {
+        return toast({
+          title: 'Update failed! Please tr again'
+        });
+      }
 
-      return navigate(`/post/${post?.$id}`);
+      return navigate(`/posts/${post?.$id}`);
     }
 
     const newPost = await createPost({
@@ -141,6 +145,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             <Button type="button"
               className="shad-button_dark_4"
               onClick={() => navigate(-1)}
+              disabled={isLoadingCreate || isUpdateingPost}
             >
               Cancel
             </Button>
