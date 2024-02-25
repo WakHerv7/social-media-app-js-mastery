@@ -111,7 +111,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                   fieldOnChange={field.onChange}
                 />
               </FormControl>
-              <FormMessage className="shad-form_message"/>
+              <FormMessage className="shad-form_message" />
             </FormItem>
           )}
         />

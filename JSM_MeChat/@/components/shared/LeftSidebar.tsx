@@ -1,8 +1,8 @@
-import { sidebarLinks } from "@/constants";
-import { useUserContext } from "@/context/AuthContext"
-import { useSignOutAccountMutation } from "@/react-query/queriesAndMutations";
-import { INavLink } from "@/types";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { sidebarLinks } from "../../../src/constants";
+import { useUserContext } from "../../../src/context/AuthContext";
+import { useSignOutAccountMutation } from "../../../src/react-query/queriesAndMutations";
+import { INavLink } from "../../../src/types";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
