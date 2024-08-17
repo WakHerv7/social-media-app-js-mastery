@@ -55,7 +55,7 @@ const Home = () => {
                   </div>
 
                   <Link to={`/posts/${post.$id}`}>
-                    <div className="small-medium lg:base-medium">
+                    <div className="py-5 small-medium lg:base-medium">
                       <p>{post.caption}</p>
                       <ul>
                         {post.tags.map((tag: string) => (
@@ -64,10 +64,11 @@ const Home = () => {
                           </li>
                         ))}
                       </ul>
-                      <div className="flex-center">
+                      <div className="flex-center pt-3">
                         <img
                           src={post.imageUrl || `/asset/icons/profile-placeholder.svg`}
                           alt="creator"
+                          className="w-full h-72 object-contain"
                         />
                       </div>
                     </div>

@@ -4,6 +4,7 @@ import {
   deletePost,
   deleteSavedPost,
   getAllPosts,
+  getAllUsers,
   getCurrentUser,
   getPostById,
   getRecentPosts,
@@ -189,4 +190,11 @@ export function useSearchPostsMutation (searchTerm: string) {
     queryFn: () => getSearchPosts(searchTerm),
     enabled: !!searchTerm
   })
-} 
+}
+
+export function useGetAllUsers() {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS],
+    queryFn: getAllUsers,
+  })
+}

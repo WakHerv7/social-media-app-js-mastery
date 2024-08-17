@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
+import defaultTheme from 'tailwindcss/defaultTheme';
 
-module.exports = {
+module.exports ={
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
+    './@/components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
@@ -15,7 +16,6 @@ module.exports = {
       padding: '2rem',
       screens: {
         '2xl': '1400px',
-      
       },
     },
     extend: {
@@ -36,7 +36,6 @@ module.exports = {
       },
       screens: {
         'xs': '480px',
-      
       },
       width: {
         '420': '420px',
@@ -44,7 +43,6 @@ module.exports = {
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
-
       },
       keyframes: {
         'accordion-down': {
@@ -63,4 +61,4 @@ module.exports = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-};
+}

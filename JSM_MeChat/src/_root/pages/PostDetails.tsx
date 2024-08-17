@@ -16,13 +16,13 @@ const PostDetails = () => {
       {isGettingPost ? (
         <Loader />
       ) : (
-        <div className="post-details_card">
+        <div className="post_details-card">
           <img
             src={post?.imageUrl}
             alt="post image"
-            className="post-details_image"
+            className="post_details-img"
           />
-          <div className="post-details_info">
+          <div className="post_details-info">
             <div className="flex-between w-full">
               <Link to={`/profile/${post?.creator.$id}`} className="flex items-center gap-3">
                 <img

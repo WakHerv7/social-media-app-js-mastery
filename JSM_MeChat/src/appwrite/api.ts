@@ -391,3 +391,19 @@ export async function getSearchPosts(searchTerm: string) {
     console.log(error);
   }
 }
+
+export async function getAllUsers() {
+  try {
+    const data = await database.listDocuments(
+      appwriteConfig.database,
+      appwriteConfig.usersCollectionId,
+      [Query.limit(6)]
+    )
+
+    if (!data) throw Error;
+    
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

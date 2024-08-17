@@ -6,6 +6,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { useSignOutAccountMutation } from "@/react-query/queriesAndMutations";
 import { INavLink } from "@/types";
 import { sidebarLinks, bottombarLinks } from "@/constants";
+import RightSidebar from "../../@/components/shared/RightSidebar";
 
 
 function RootLayout() {
@@ -97,19 +98,23 @@ function RootLayout() {
               )
             })}
           </ul>
+          
+          <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
+            <img
+              src="/assets/icons/logout.svg"
+              alt="logout"
+            />
+            <p className="small-medium lg:base-medium">Logout</p>
+          </Button>
         </div>
-        <Button variant="ghost" className="shad-button_ghost" onClick={() => signOutUser()}>
-          <img
-            src="/assets/icons/logout.svg"
-            alt="logout"
-          />
-          <p className="small-medium lg:base-medium">Logout</p>
-        </Button>
       </nav>
 
       <section className="flex flex-1">
         <Outlet />
       </section>
+      
+      {/** RightSidebar only visible on large devices */}
+      <RightSidebar />
 
       {/** Bottombar only visible on mobile devices */}
       <section className="bottom-bar">
