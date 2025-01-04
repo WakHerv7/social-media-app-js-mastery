@@ -7,30 +7,34 @@ const RightSidebar = () => {
   const { data: allUsers } = useGetAllUsers();
 
   return (
-    <div className="pt-10 px-10">
-      <h2 className='text-bold font-thin text-left'>Top Creators</h2>
-      <div className="flex flex-wrap gap-4 mt-6">
-        {allUsers?.documents.map((userData) => (
-          userData.$id !== user.id &&
-          <div key={userData.id} className="flex flex-col w-[120px] gap-6 items-center  rounded-xl">
-            <img
-              src={userData.imageUrl || `/assets/icons/profile-placeholder.svg`}
-              alt="user avatar"
-              className="w-8 h-8 rounded-full"
-            />
-            <p className="text-sm">{userData.name}</p>
-            <p className="text-xs text-light-3">@{userData.username}</p>
-            <Button
-              variant="ghost"
-              className="shad-button_ghost bg-primary-500 text-white text-xs px-10 rounded-md"
-            >
-              Follow
-            </Button>
-          </div>
-        ))}
+    <aside className="px-6 py-10 max-w-[270px]">
+      <h2 className="text-bold font-smibold text-left">Top Creators</h2>
+      <div className="mt-6 flex flex-wrap gap-3 justify-start">
+        {allUsers?.documents.map(
+          (userData) =>
+            userData.$id !== user.id && (
+              <div
+                key={userData.id}
+                className="bg-dark-2 p-3 rounded-xl flex flex-col items-center"
+              >
+                <img
+                  src={
+                    userData.imageUrl || `/assets/icons/profile-placeholder.svg`
+                  }
+                  alt="user avatar"
+                  className="w-8 h-8 rounded-full"
+                />
+                <p className="text-sm">{userData.name}</p>
+                <p className="text-xs text-light-3">@{userData.username}</p>
+                <Button className="bg-primary-500 text-white text-[10px] px-4 h-7 rounded-md mt-2">
+                  Follow
+                </Button>
+              </div>
+            )
+        )}
       </div>
-    </div>
-  )
-}
+    </aside>
+  );
+};
 
-export default RightSidebar
+export default RightSidebar;
