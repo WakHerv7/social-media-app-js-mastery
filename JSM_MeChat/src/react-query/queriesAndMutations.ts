@@ -9,6 +9,7 @@ import {
   getPostById,
   getRecentPosts,
   getSearchPosts,
+  getUserByID,
   likePost,
   savePost,
   signInUserAccount,
@@ -139,6 +140,14 @@ export function useGetCurrentUser() {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
+  });
+}
+
+export function useGetUserByID(userId: string) {
+  return useQuery({
+    queryKey: ["getUser", userId],
+    queryFn: () => getUserByID(userId),
+    enabled: !!userId,
   });
 }
 

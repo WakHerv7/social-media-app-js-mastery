@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { useGetPostsMutation, useSearchPostsMutation } from "@/react-query/queriesAndMutations"
-import { Input } from "../../../@/components/ui/input"
-import Loader from "../../../@/components/shared/Loader";
-import SearchPostResult from '@/components/shared/SearchPostResults';
-import Gridpost from '@/components/shared/GridPost'
+import {
+  useGetPostsMutation,
+  useSearchPostsMutation,
+} from "@/react-query/queriesAndMutations";
+import { Input } from "../../../@/components/ui/input";
+import GridPost from "../../../@/components/shared/GridPost";
+import SearchPostResults from "../../../@/components/shared/SearchPostResults";
 
 const Explore = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const {data: posts, isPending: isLoading} = useGetPostsMutation();
-  const {data: searchResult, isPending: isFetchingPosts} = useSearchPostsMutation(searchTerm);
+  const posts = useGetPostsMutation();
+  const searchPostsResult = useSearchPostsMutation(searchTerm);
 
-  const showSearchResults = searchTerm !== '';
-  const showAllPosts = !searchTerm && posts?.pages.every((item) => item?.documents.length === 0)
+  const showAllPosts =
+    !searchTerm &&
+    posts?.data?.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -51,19 +54,21 @@ const Explore = () => {
         </div>
 
         <div className="flex flex-1">
-          {showSearchResults ? (
+          {searchPostsResult?.data?.documents?.length! > 0 ? (
             <SearchPostResults />
           ) : showAllPosts ? (
+            posts?.data?.pages.map((item, index) => (
+              <GridPost key={`post-${index}`} post={item?.documents} />
+            ))
+          ) : (
             <p className="text-light-4 mt-10 text-center w-full">
               End of Posts
             </p>
-          ) : posts?.pages.map((item, index) => (
-            <GridPost key={`post-${index}`} post={item?.documents} />
-          ))}
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Explore
+export default Explore;

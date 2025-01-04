@@ -1,23 +1,21 @@
 import { useGetRecentPosts } from "@/react-query/queriesAndMutations";
 import Loader from "../../../@/components/shared/Loader";
 import { Models } from "appwrite";
-import PostCard from '../../../@/components/shared/PostCard';
+import PageHeader from "../../../@/components/shared/PageHeader";
 import { Link } from "react-router-dom";
 import { multiFormatDateString } from "../../../@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
 import PostStats from "../../../@/components/shared/PostStats";
 
 const Home = () => {
-  const {data: recentPosts, isPending: isLoading, isError: errorLoading} = useGetRecentPosts();
+  const { data: recentPosts, isPending: isLoading } = useGetRecentPosts();
   const { user } = useUserContext();
 
   return (
     <div className="flex flex-1">
       <div className="home-container">
         <div className="home-posts">
-          <h2 className="h3-bold md:h2-bold text-left w-full">
-            Home Feed
-          </h2>
+          <PageHeader title="Home" />
           {isLoading && !recentPosts ? (
             <Loader />
           ) : (
@@ -28,23 +26,35 @@ const Home = () => {
                     <div className="flex items-center gap-3">
                       <Link to={`/profile/${post?.creator.$id}`}>
                         <img
-                          src={post.creator.imageUrl || `/assets/icons/profile-placeholder.svg`}
+                          src={
+                            post.creator.imageUrl ||
+                            `/assets/icons/profile-placeholder.svg`
+                          }
                           alt="profile photo"
                           className="rounded-full w-12 lg:h-14 lg:w-14"
                         />
                       </Link>
-                      
+
                       <div className="flex flex-col">
-                        <p className="base-medium lg:body-bold text-light-1">{post.creator.name}</p>
+                        <p className="base-medium lg:body-bold text-light-1">
+                          {post.creator.name}
+                        </p>
                         <div className="flex-center gap-2 text-light-3">
-                          <p className="subtle-semibold lg:small-regular">{multiFormatDateString(post.$createdAt)}</p>
+                          <p className="subtle-semibold lg:small-regular">
+                            {multiFormatDateString(post.$createdAt)}
+                          </p>
                           -
-                          <p className="subtle-semibold lg:small-regular">{post.location}</p>
+                          <p className="subtle-semibold lg:small-regular">
+                            {post.location}
+                          </p>
                         </div>
                       </div>
                     </div>
 
-                    <Link to={`/edit-post/${post.$id}`} className={`${user.id !== post.creator.$id && "hidden"}`}>
+                    <Link
+                      to={`/edit-post/${post.$id}`}
+                      className={`${user.id !== post.creator.$id && "hidden"}`}
+                    >
                       <img
                         src="/assets/icons/edit.svg"
                         alt="edit post"
@@ -66,7 +76,10 @@ const Home = () => {
                       </ul>
                       <div className="flex-center pt-3">
                         <img
-                          src={post.imageUrl || `/asset/icons/profile-placeholder.svg`}
+                          src={
+                            post.imageUrl ||
+                            `/asset/icons/profile-placeholder.svg`
+                          }
                           alt="creator"
                           className="w-full h-72 object-contain"
                         />
@@ -81,7 +94,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Home;

@@ -1,11 +1,8 @@
-import React from "react"
+import { IUpdatePost } from "@/types";
+import { Models } from "appwrite";
 
-const GridPost = () => {
-  return (
-    <div>
-      grid posts
-    </div>
-  )
-}
+const GridPost = ({ post }: any) => {
+  return <div>{post}</div>;
+};
 
-export default GridPost
+export default GridPost;

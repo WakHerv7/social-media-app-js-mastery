@@ -86,6 +86,24 @@ export async function getCurrentUser() {
   }
 }
 
+export async function getUserByID(userId: string) {
+  //create the database query with the queryclient
+  const query = [Query.equal("accountId", userId)];
+
+  try {
+    const userInfo = await database.listDocuments(
+      appwriteConfig.database,
+      appwriteConfig.usersCollectionId,
+      query
+    );
+
+    if (!userInfo) throw Error;
+
+    return userInfo.documents[0];
+  } catch (error) {
+    console.log("Error", error);
+  }
+}
 export async function signOutUserAccount() {
   try {
     const session = await account.deleteSession("current");
@@ -368,10 +386,10 @@ export async function getAllPosts({ pageParams }: { pageParams: number }) {
 }
 
 export async function getSearchPosts(searchTerm: string) {
-  const query = [Query.search("caption", searchTerm)];
+  const query: any[] = [Query.search("caption", searchTerm)];
 
   try {
-    const searchResult = database.listDocuments(
+    const searchResult = await database.listDocuments(
       appwriteConfig.database,
       appwriteConfig.postsCollectionId,
       query
