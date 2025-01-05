@@ -19,9 +19,9 @@ const Home = () => {
           {isLoading && !recentPosts ? (
             <Loader />
           ) : (
-            <ul className="flex flex-col flex-1 gap-9 w-full">
+            <ul className="flex-center flex-col flex-1 gap-9 w-full">
               {recentPosts?.documents.map((post: Models.Document) => (
-                <div key={post.$id} className="post-card">
+                <div key={post.$id} className="post-card w-80">
                   <div className="flex-between">
                     <div className="flex items-center gap-3">
                       <Link to={`/profile/${post?.creator.$id}`}>

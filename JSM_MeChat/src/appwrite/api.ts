@@ -87,19 +87,16 @@ export async function getCurrentUser() {
 }
 
 export async function getUserByID(userId: string) {
-  //create the database query with the queryclient
-  const query = [Query.equal("accountId", userId)];
-
   try {
-    const userInfo = await database.listDocuments(
+    const userInfo = await database.getDocument(
       appwriteConfig.database,
       appwriteConfig.usersCollectionId,
-      query
+      userId
     );
 
     if (!userInfo) throw Error;
 
-    return userInfo.documents[0];
+    return userInfo;
   } catch (error) {
     console.log("Error", error);
   }

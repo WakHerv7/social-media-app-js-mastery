@@ -145,7 +145,7 @@ export function useGetCurrentUser() {
 
 export function useGetUserByID(userId: string) {
   return useQuery({
-    queryKey: ["getUser", userId],
+    queryKey: ["getUserByID", userId],
     queryFn: () => getUserByID(userId),
     enabled: !!userId,
   });
